@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auric AI Labs &times; Bhanu Kumar &middot; Proof of Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700;800&family=Epilogue:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:       #06070a;
+  --bg2:      #0a0c11;
+  --bg3:      #0f1219;
+  --bg4:      #151923;
+  --bg5:      #1b202b;
+  --bdr:      rgba(255,255,255,0.07);
+  --bmd:      rgba(255,255,255,0.13);
+  --blg:      rgba(255,255,255,0.22);
+  --t1:       #edf0f4;
+  --t2:       #8b91a0;
+  --t3:       #4c525f;
+  --amb:         #d99a4e;
+  --amb-dim:     rgba(217,154,78,0.10);
+  --amb-glow:    rgba(217,154,78,0.26);
+  --amb-t:       #eab873;
+  --stl:         #6fa3c4;
+  --stl-dim:     rgba(111,163,196,0.10);
+  --stl-glow:    rgba(111,163,196,0.24);
+  --stl-t:       #92c0dc;
+  --red:         #c1554c;
+  --red-dim:     rgba(193,85,76,0.12);
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:64px;}
+body{
+  background:var(--bg);color:var(--t1);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px;line-height:1.7;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(680px 460px at 12% -6%, rgba(217,154,78,0.06), transparent 60%),
+    radial-gradient(620px 420px at 96% 8%, rgba(111,163,196,0.06), transparent 60%);
+}
+
+::selection{background:var(--amb-dim);color:var(--t1);}
+a{color:inherit;}
+img,svg{display:block;}
+
+/* ===== PROGRESS BAR ===== */
+.pbar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--amb),var(--stl));z-index:500;width:0%;transition:width 0.1s linear;}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:300;background:rgba(6,7,10,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--bdr);padding:0 5vw;}
+.nav-i{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px;}
+.nav-brand{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--t1);letter-spacing:0.02em;white-space:nowrap;display:flex;align-items:center;gap:8px;text-decoration:none;}
+.nav-brand .dot{width:6px;height:6px;border-radius:50%;background:var(--amb);box-shadow:0 0 0 0 var(--amb-glow);animation:dotpulse 2.6s ease-in-out infinite;}
+@keyframes dotpulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.45;transform:scale(0.72);}}
+.nav-brand b{font-weight:500;color:var(--t1);}
+.nav-brand span{color:var(--t3);}
+.nav-links{display:flex;gap:2px;flex-wrap:wrap;}
+.np{font-size:12px;font-weight:500;padding:6px 12px;border-radius:6px;border:1px solid transparent;color:var(--t2);background:transparent;text-decoration:none;transition:all 0.13s;white-space:nowrap;font-family:'JetBrains Mono',monospace;letter-spacing:0.01em;}
+.np:hover{border-color:var(--bdr);color:var(--t1);background:var(--bg3);}
+.np.cta{background:var(--amb);border-color:var(--amb);color:#221503;font-weight:600;margin-left:6px;}
+.np.cta:hover{opacity:0.88;}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;flex-shrink:0;}
+.hbg span{display:block;width:20px;height:1.5px;background:var(--t1);border-radius:2px;transition:transform .3s,opacity .3s;}
+.hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hbg.open span:nth-child(2){opacity:0;}
+.hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mob-menu{display:none;position:fixed;inset:0;top:60px;background:var(--bg);z-index:290;flex-direction:column;padding:26px 5vw;gap:0;border-top:1px solid var(--bdr);}
+.mob-menu.open{display:flex;}
+.mob-menu a{display:block;font-size:18px;font-family:'Epilogue',sans-serif;font-weight:500;color:var(--t1);text-decoration:none;padding:15px 0;border-bottom:1px solid var(--bdr);}
+.mob-menu a:last-child{border-bottom:none;}
+.mob-menu a.mcta{color:var(--amb-t);}
+@media(max-width:760px){.nav-links{display:none;}.hbg{display:flex;}}
+
+/* ===== WRAPPER ===== */
+.wrap{max-width:1180px;margin:0 auto;padding:0 5vw;position:relative;z-index:1;}
+section.part{padding:84px 0;border-bottom:1px solid var(--bdr);}
+.rv{opacity:0;transform:translateY(14px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.rv.in{opacity:1;transform:none;}
+
+/* ===== HERO ===== */
+.hero{padding:clamp(40px,7vh,72px) 5vw clamp(32px,6vh,60px);max-width:1180px;margin:0 auto;position:relative;z-index:1;border-bottom:1px solid var(--bdr);}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:var(--t3);margin-bottom:18px;}
+.hero-hed{font-family:'Epilogue',sans-serif;font-weight:700;font-size:clamp(28px,3.6vw,44px);line-height:1.16;letter-spacing:-0.01em;color:var(--t1);margin-bottom:14px;max-width:700px;}
+.hero-sub{font-size:clamp(14.5px,1.3vw,16px);color:var(--t2);max-width:540px;line-height:1.65;margin-bottom:clamp(20px,4vh,32px);font-weight:400;}
+.hero-sub strong{color:var(--t1);font-weight:600;}
+
+/* ===== FUSION DEMO (hero interaction) ===== */
+.dk-caption{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);letter-spacing:0.04em;margin-bottom:14px;}
+.fusion{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:clamp(12px,2.2vh,18px) clamp(14px,2.4vw,20px) clamp(10px,2vh,16px);margin-bottom:16px;display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(10px,2vw,14px);align-items:center;width:min(640px,100%);}
+.f-col{display:flex;flex-direction:column;gap:8px;min-width:0;}
+.f-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);margin-bottom:6px;}
+.f-label.right{color:var(--amb-t);text-align:right;}
+.f-label.left{color:var(--stl-t);}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--stl-t);background:var(--stl-dim);border:1px solid rgba(111,163,196,0.22);border-radius:7px;padding:clamp(6px,1.4vh,8px) 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateX(-14px);transition:opacity 0.45s ease,transform 0.45s ease;will-change:opacity,transform;}
+.chip.in{opacity:1;transform:none;}
+.f-mid{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 4px;}
+.f-gate{width:26px;height:clamp(72px,14vh,96px);border-radius:7px;background:linear-gradient(180deg,var(--bg4),var(--bg3));border:1px solid var(--bmd);position:relative;overflow:hidden;}
+.f-scan{position:absolute;left:0;right:0;height:26px;background:linear-gradient(180deg,transparent,rgba(217,154,78,0.55),transparent);top:-30px;opacity:0;will-change:transform,opacity;}
+.f-scan.run{animation:scanmove 0.9s ease-in-out 1;}
+@keyframes scanmove{0%{transform:translateY(0);opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{transform:translateY(122px);opacity:0;}}
+.f-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--t3);background:var(--bg3);border:1px solid var(--bdr);border-radius:5px;padding:3px 7px;}
+.track-card{background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;padding:clamp(11px,2vh,14px) clamp(12px,2vw,16px);opacity:0;transform:translateY(6px);transition:opacity 0.4s ease,transform 0.4s ease;}
+.track-card.in{opacity:1;transform:none;}
+.track-top{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.track-name{font-family:'Epilogue',sans-serif;font-weight:600;font-size:15px;color:var(--t1);white-space:nowrap;}
+.track-badge{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--amb-t);background:var(--amb-dim);border:1px solid rgba(217,154,78,0.25);border-radius:5px;padding:3px 8px;white-space:normal;line-height:1.5;max-width:100%;}
+.track-sub{font-size:12.5px;color:var(--t2);margin-bottom:10px;}
+.conf-row{display:flex;align-items:center;gap:10px;}
+.conf-track{flex:1;height:5px;border-radius:3px;background:var(--bg4);overflow:hidden;}
+.conf-fill{height:100%;background:linear-gradient(90deg,var(--stl),var(--amb));width:0%;transition:width 0.65s cubic-bezier(.2,.7,.3,1);}
+.conf-num{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--t2);white-space:nowrap;}
+.dk-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:28px;}
+.dk-dots{display:flex;gap:6px;}
+.dk-dot{width:6px;height:6px;border-radius:50%;background:var(--bg4);border:1px solid var(--bmd);cursor:pointer;transition:background 0.2s;}
+.dk-dot.on{background:var(--amb);border-color:var(--amb);}
+.replay-btn{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--t2);background:transparent;border:1px solid var(--bdr);border-radius:7px;padding:8px 12px;cursor:pointer;transition:all 0.15s;}
+.replay-btn:hover{color:var(--t1);border-color:var(--bmd);background:var(--bg3);}
+.replay-btn svg{width:12px;height:12px;stroke:currentColor;}
+.replay-btn.invite{border-color:rgba(217,154,78,0.4);color:var(--amb-t);}
+
+.hero-toc{display:flex;flex-wrap:wrap;gap:8px;}
+.toc-pill{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--t2);border:1px solid var(--bdr);border-radius:20px;padding:7px 14px;text-decoration:none;transition:all 0.15s;}
+.toc-pill:hover{color:var(--t1);border-color:var(--bmd);background:var(--bg3);}
+
+@media(max-height:760px){
+  .hero{padding-top:32px;padding-bottom:26px;}
+  .hero-eyebrow{margin-bottom:12px;}
+  .hero-hed{margin-bottom:10px;}
+  .hero-sub{margin-bottom:16px;}
+  .fusion{padding:12px 16px 10px;margin-bottom:10px;}
+  .f-gate{height:76px;}
+  .dk-controls{margin-bottom:16px;}
+  .hero-toc{margin-top:16px !important;}
+}
+@media(max-width:420px){
+  .hero-hed{font-size:clamp(24px,7vw,32px);}
+}
+
+@media(max-width:700px){
+  .fusion{grid-template-columns:1fr;max-width:100%;}
+  .f-mid{flex-direction:row;justify-content:center;padding:6px 0;}
+  .f-gate{width:96px;height:24px;}
+  .f-scan{width:22px;height:100%;left:-26px;top:0;background:linear-gradient(90deg,transparent,rgba(217,154,78,0.55),transparent);}
+  .f-scan.run{animation:scanmoveH 0.9s ease-in-out 1;}
+  @keyframes scanmoveH{0%{transform:translateX(0);opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{transform:translateX(122px);opacity:0;}}
+}
+
+/* ===== SECTION SHARED ===== */
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--amb-t);letter-spacing:0.08em;}
+.sec-title{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--t3);letter-spacing:0.14em;text-transform:uppercase;}
+.part-h{font-family:'Epilogue',sans-serif;font-weight:700;font-size:clamp(24px,3.4vw,36px);line-height:1.24;color:var(--t1);margin-bottom:16px;max-width:820px;}
+.part-lead{font-size:15.5px;color:var(--t2);max-width:700px;line-height:1.75;margin-bottom:34px;}
+.part-lead strong{color:var(--t1);font-weight:600;}
+
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.tab{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--t2);background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:9px 16px;cursor:pointer;transition:all 0.15s;}
+.tab.on{color:var(--t1);border-color:var(--bmd);background:var(--bg3);}
+.tab.on.amb{color:var(--amb-t);border-color:rgba(217,154,78,0.35);}
+.tpanel{display:none;}
+.tpanel.on{display:block;}
+.panel-box{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:24px 26px;margin-bottom:14px;}
+.panel-box.amb{border-color:rgba(217,154,78,0.22);background:linear-gradient(180deg,rgba(217,154,78,0.05),transparent 60%),var(--bg2);}
+.panel-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);letter-spacing:0.06em;display:block;margin-bottom:12px;}
+.panel-h{font-family:'Epilogue',sans-serif;font-weight:600;font-size:18px;color:var(--t1);margin-bottom:10px;line-height:1.4;}
+.panel-body{font-size:14.5px;color:var(--t2);line-height:1.8;}
+.panel-why{font-size:13.5px;color:var(--t2);border-top:1px solid var(--bdr);margin-top:16px;padding-top:14px;line-height:1.75;}
+.panel-why strong{color:var(--t1);}
+.disclaimer{font-size:12.5px;color:var(--t3);line-height:1.7;margin-top:6px;}
+
+/* CARDS / GRIDS */
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px;}
+.ev-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:20px 20px 22px;}
+.ev-card.pri{border-color:rgba(217,154,78,0.28);}
+.ev-card.skip{opacity:0.7;}
+.ev-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:12px;}
+.ev-tag.go{color:var(--amb-t);background:var(--amb-dim);border:1px solid rgba(217,154,78,0.25);}
+.ev-tag.watch{color:var(--stl-t);background:var(--stl-dim);border:1px solid rgba(111,163,196,0.25);}
+.ev-tag.no{color:var(--t3);background:var(--bg3);border:1px solid var(--bdr);}
+.ev-card h4{font-family:'Epilogue',sans-serif;font-weight:600;font-size:16.5px;margin-bottom:8px;color:var(--t1);}
+.ev-card p{font-size:13.5px;color:var(--t2);line-height:1.7;}
+@media(max-width:860px){.ev-grid{grid-template-columns:1fr;}}
+
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px;}
+.pillar{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:20px;}
+.pillar-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);letter-spacing:0.08em;margin-bottom:10px;display:block;}
+.pillar h4{font-family:'Epilogue',sans-serif;font-weight:600;font-size:15.5px;margin-bottom:8px;color:var(--t1);}
+.pillar p{font-size:13px;color:var(--t2);line-height:1.7;}
+@media(max-width:860px){.pillar-grid{grid-template-columns:1fr;}}
+
+.asset-card{background:var(--bg3);border:1px dashed var(--bmd);border-radius:10px;padding:18px 20px;margin-top:14px;}
+.asset-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);letter-spacing:0.06em;display:block;margin-bottom:10px;}
+.asset-h{font-family:'Epilogue',sans-serif;font-weight:600;font-size:16px;color:var(--t1);margin-bottom:8px;line-height:1.4;}
+.asset-list{padding-left:18px;font-size:13.5px;color:var(--t2);line-height:2;}
+.asset-list li strong{color:var(--t1);}
+
+.seg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+.seg-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:22px;}
+.seg-card.pri{border-color:rgba(217,154,78,0.25);}
+.seg-rank{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--amb-t);letter-spacing:0.08em;margin-bottom:10px;display:block;}
+.seg-card h4{font-family:'Epilogue',sans-serif;font-weight:600;font-size:16px;margin-bottom:8px;color:var(--t1);}
+.seg-card p{font-size:13.5px;color:var(--t2);line-height:1.75;}
+@media(max-width:860px){.seg-grid{grid-template-columns:1fr;}}
+
+.comp-table{display:flex;flex-direction:column;border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.comp-row{display:grid;grid-template-columns:1.1fr 1.6fr 1.8fr;border-bottom:1px solid var(--bdr);}
+.comp-row:last-child{border-bottom:none;}
+.comp-head-row{background:var(--bg3);}
+.comp-cell{padding:16px 18px;font-size:13.5px;color:var(--t2);line-height:1.65;}
+.comp-head-row .comp-cell{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--t3);}
+.comp-tool{font-family:'Epilogue',sans-serif;font-weight:600;color:var(--t1);font-size:14.5px;}
+@media(max-width:760px){.comp-row{grid-template-columns:1fr;}.comp-cell{padding:12px 16px;}.comp-cell:first-child{background:var(--bg3);}}
+.pull{font-family:'Epilogue',sans-serif;font-size:19px;font-weight:500;color:var(--t1);line-height:1.55;border-left:2px solid var(--amb);padding-left:20px;max-width:760px;}
+
+/* OTHER WORK */
+.wgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.wcard{display:block;background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:22px 22px 24px;text-decoration:none;transition:all 0.18s;position:relative;}
+.wcard:hover{border-color:var(--bmd);background:var(--bg3);transform:translateY(-2px);}
+.wcard.full{grid-column:1 / -1;}
+.wcard-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);letter-spacing:0.04em;display:block;margin-bottom:12px;}
+.wcard h4{font-family:'Epilogue',sans-serif;font-weight:600;font-size:17px;margin-bottom:8px;color:var(--t1);}
+.wcard p{font-size:13.5px;color:var(--t2);line-height:1.7;margin-bottom:10px;}
+.wcard-arr{font-size:15px;color:var(--amb-t);}
+@media(max-width:760px){.wgrid{grid-template-columns:1fr;}}
+
+/* SIGNATURE */
+.sig{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:56px 0 22px;}
+.sig-name{font-family:'Epilogue',sans-serif;font-weight:700;font-size:22px;color:var(--t1);}
+.sig-name span{color:var(--t3);font-weight:500;}
+.sig-links{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--t2);margin-top:8px;line-height:2;}
+.sig-links a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.15s;}
+.sig-links a:hover{border-color:var(--t3);}
+.sig-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.sbtn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:8px;text-decoration:none;display:flex;align-items:center;gap:7px;transition:all 0.15s;}
+.sbtn.pri{background:var(--amb);color:#221503;}
+.sbtn.pri:hover{opacity:0.88;}
+.sbtn.ghost{border:1px solid var(--bdr);color:var(--t2);}
+.sbtn.ghost:hover{color:var(--t1);border-color:var(--bmd);background:var(--bg3);}
+.note{font-size:12.5px;color:var(--t3);line-height:1.7;padding-bottom:50px;max-width:760px;}
+</style>
+</head>
+<body>
+
+<div class="pbar" id="pbar"></div>
+
+<nav class="nav">
+  <div class="nav-i">
+    <a href="#top" class="nav-brand"><span class="dot"></span><b>Bhanu Kumar</b><span>&nbsp;&times;&nbsp;Auric AI</span></a>
+    <div class="nav-links">
+      <a class="np" href="#position-work">Positioning</a>
+      <a class="np" href="#events">Events</a>
+      <a class="np" href="#content">Content</a>
+      <a class="np" href="#audience">Audience</a>
+      <a class="np" href="#compete">Position</a>
+      <a class="np" href="#work">Work</a>
+      <a class="np cta" href="mailto:bhanukumar0902@gmail.com">Say hello</a>
+    </div>
+    <button class="hbg" id="hbg" onclick="toggleMob()" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mobm">
+  <a href="#position-work" onclick="closeMob()">01 / Positioning</a>
+  <a href="#events" onclick="closeMob()">02 / Events</a>
+  <a href="#content" onclick="closeMob()">03 / Content</a>
+  <a href="#audience" onclick="closeMob()">04 / Audience</a>
+  <a href="#compete" onclick="closeMob()">05 / Position</a>
+  <a href="#work" onclick="closeMob()">06 / Other Work</a>
+  <a class="mcta" href="mailto:bhanukumar0902@gmail.com" onclick="closeMob()">Say hello &rarr;</a>
+</div>
+
+<div id="top"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-eyebrow rv">Proof of Work &middot; Auric AI Labs</div>
+  <h1 class="hero-hed rv">Auric already has the position. It just hasn&rsquo;t left the conference room.</h1>
+  <p class="hero-sub rv">Said sharper on a stage in New Delhi than on the site. Here&rsquo;s how I&rsquo;d fix that, and where Auric sits next to Palantir and Vantor.</p>
+
+  <div class="dk-caption rv">What a vision intelligence platform is built to do to raw signal, made visible before a word of copy:</div>
+  <div class="fusion rv" id="fusion">
+    <div class="f-col" id="fInputs">
+      <div class="f-label left">Raw signal</div>
+    </div>
+    <div class="f-mid">
+      <div class="f-gate"><div class="f-scan" id="fScan"></div></div>
+      <div class="f-tag">FUSE</div>
+    </div>
+    <div class="f-col">
+      <div class="f-label right">Resolved track</div>
+      <div class="track-card" id="trackCard">
+        <div class="track-top">
+          <div class="track-name" id="trackName">Contact 07</div>
+          <div class="track-badge" id="trackBadge">Class &middot; Surface vessel</div>
+        </div>
+        <div class="track-sub" id="trackSub">4 sources correlated &middot; last update 2s ago</div>
+        <div class="conf-row">
+          <div class="conf-track"><div class="conf-fill" id="confFill"></div></div>
+          <div class="conf-num"><span id="confNum">0</span>% confidence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dk-controls rv">
+    <div class="dk-dots" id="fDots"></div>
+    <button class="replay-btn" id="replayBtn" onclick="replayFusion()">
+      <svg viewBox="0 0 14 14" fill="none"><path d="M12.5 7a5.5 5.5 0 1 1-1.6-3.87M12.5 1.5v3.13H9.37" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Resolve another contact &rarr;
+    </button>
+  </div>
+
+  <div class="hero-toc rv" style="margin-top:34px;">
+    <a class="toc-pill" href="#position-work">01 Positioning</a>
+    <a class="toc-pill" href="#events">02 Events</a>
+    <a class="toc-pill" href="#content">03 Content</a>
+    <a class="toc-pill" href="#audience">04 Audience</a>
+    <a class="toc-pill" href="#compete">05 Position</a>
+    <a class="toc-pill" href="#work">06 Other Work</a>
+  </div>
+</section>
+
+<!-- ============ 01 POSITIONING ============ -->
+<section class="part" id="position-work">
+  <div class="wrap">
+    <div class="sec-label rv"><span class="sec-num">01</span><span class="sec-title">Positioning</span></div>
+    <h2 class="part-h rv">The homepage says &ldquo;battlefield superiority.&rdquo; So does everyone else&rsquo;s.</h2>
+    <p class="part-lead rv">Every defense AI company on the planet claims a tactical edge in its hero line. That&rsquo;s table stakes, not a position. Auric already has a sharper one, it just hasn&rsquo;t made it to the site yet, it&rsquo;s sitting in the founder&rsquo;s own conference recap.</p>
+
+    <div class="tabs rv">
+      <button class="tab on" data-tab="p1a" onclick="setTab('position-work',this,'p1a')">As shown today</button>
+      <button class="tab" data-tab="p1b" onclick="setTab('position-work',this,'p1b')">How I&rsquo;d reposition it</button>
+    </div>
+
+    <div class="tpanel on rv" data-panel="p1a">
+      <div class="panel-box">
+        <span class="panel-tag">auricai.in &middot; homepage and about page, as published</span>
+        <p class="panel-body">The homepage leads with <strong style="color:var(--t1);">&ldquo;Advanced AI. Tactical Autonomy. Unmatched Battlefield Superiority.&rdquo;</strong> The about page describes the mission as building autonomous systems so that <strong style="color:var(--t1);">India leads the world in intelligent, autonomous defence systems</strong>, and lists three solution lines: long range loitering munitions, unmanned surface vessels, and a data driven vision intelligence platform. It is accurate. It is also the same three words, in some order, on every defense tech deck from Tel Aviv to Austin.</p>
+      </div>
+    </div>
+
+    <div class="tpanel rv" data-panel="p1b">
+      <div class="panel-box amb">
+        <span class="panel-tag">what the founder is actually saying, one layer down</span>
+        <div class="panel-h">Auric isn&rsquo;t selling autonomy. It&rsquo;s selling the thing between the sensor and the decision.</div>
+        <p class="panel-body">In a recap of Auric&rsquo;s talk at the Indo Pacific GeoIntelligence Forum 2026, the founder described the actual problem: satellite and sensor collection is scaling fast while human analyst capacity stays flat, and the gap between what comes in and what a person can act on is where wars get decided. His own line for the company: <strong style="color:var(--t1);">a sovereign Multi-INT fusion and reasoning platform, built in India, for India</strong>. It names the gap. It names the wedge. It just hasn&rsquo;t left the conference room.</p>
+      </div>
+      <div class="asset-card">
+        <span class="asset-tag">Sample &middot; homepage rewrite, headline options</span>
+        <ul class="asset-list">
+          <li><strong>&ldquo;The gap between what your sensors see and what your analysts can act on. That&rsquo;s the problem we built for.&rdquo;</strong></li>
+          <li><strong>&ldquo;A sovereign fusion layer for a country that can&rsquo;t run its intelligence stack on someone else&rsquo;s cloud.&rdquo;</strong></li>
+          <li><strong>&ldquo;IMINT, ELINT and OSINT don&rsquo;t arrive as one picture. We make them one.&rdquo;</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 EVENTS ============ -->
+<section class="part" id="events">
+  <div class="wrap">
+    <div class="sec-label rv"><span class="sec-num">02</span><span class="sec-title">Events</span></div>
+    <h2 class="part-h rv">Aero India 2027 has nine hangars. Most exhibitors won&rsquo;t be remembered past hangar F.</h2>
+    <p class="part-lead rv">Aero India returns to Yelahanka in February 2027, its sixteenth edition, in Auric&rsquo;s own city. The 2025 edition drew roughly 900 exhibitors including 150 international ones, spread across nine hangars, with the big OEM names occupying the middle hangars and SMEs and startups pushed toward the far end. Auric cannot out-spec Vantor or Palantir on a stand budget. It can out-narrate them on home turf.</p>
+
+    <div class="ev-grid rv">
+      <div class="ev-card pri">
+        <span class="ev-tag go">Priority &middot; home turf</span>
+        <h4>Aero India 2027, Bengaluru</h4>
+        <p>Auric&rsquo;s own city, DRDO and both Army and Navy leadership routinely attend, and the SME hangars are exactly where a two year old fusion company should be building relationships, not competing on booth size. The plan below is built around this show.</p>
+      </div>
+      <div class="ev-card pri">
+        <span class="ev-tag go">Priority &middot; already validated</span>
+        <h4>ISR / GeoIntelligence forums</h4>
+        <p>Auric already spoke and exhibited at the Indo Pacific GeoIntelligence Forum 2026 in New Delhi, reportedly running two live platforms at the booth. That is the right room, an ISR and fusion specific audience rather than a general defense crowd, and it is a format worth repeating and scaling, not a one-off.</p>
+      </div>
+      <div class="ev-card skip">
+        <span class="ev-tag no">Deprioritize</span>
+        <h4>General AI / broad tech conferences</h4>
+        <p>Assumption, flagged: a generic AI conference audience is mostly commercial buyers and researchers, not the procurement officers or defense primes Auric needs in the room. The story reads as a curiosity there, not a credential.</p>
+      </div>
+    </div>
+
+    <div class="panel-box rv" style="border-color:rgba(193,85,76,0.22);">
+      <span class="panel-tag">places I&rsquo;d deliberately avoid, and why</span>
+      <ul class="asset-list" style="margin-bottom:0;">
+        <li><strong>General AI / ML conferences</strong>, wrong room, the audience is commercial buyers and researchers, not procurement or DRDO.</li>
+        <li><strong>Generic startup expos and pitch showcases</strong>, they flatten Auric into &ldquo;another AI startup&rdquo; next to consumer apps, undoing the sovereignty and fusion position.</li>
+        <li><strong>Broad enterprise SaaS events</strong>, none of the people in that room can buy or influence a defense procurement decision, and appearing there reads as unfocused rather than ambitious.</li>
+      </ul>
+    </div>
+
+    <div class="tabs rv">
+      <button class="tab on" data-tab="p2a" onclick="setTab('events',this,'p2a')">Booth concept</button>
+      <button class="tab" data-tab="p2b" onclick="setTab('events',this,'p2b')">Six week plan</button>
+    </div>
+
+    <div class="tpanel on rv" data-panel="p2a">
+      <div class="panel-box amb">
+        <span class="panel-tag">Aero India 2027 &middot; SME / startup hangar</span>
+        <div class="panel-h">Don&rsquo;t build a booth about drones. Build a booth about the gap they can&rsquo;t close alone.</div>
+        <p class="panel-body">Every hangar at Aero India will have a platform on a plinth. Auric&rsquo;s edge isn&rsquo;t a platform, it&rsquo;s the fusion layer underneath one. The booth centerpiece should be a live version of the fusion demo above, real sensor categories converging into one resolved picture on a screen, run by a person, not a video loop. The narrative for a visiting officer or DRDO scientist should take under ninety seconds: your sensors already collect enough, here is what happens to that data once it hits us.</p>
+        <div class="panel-why"><strong>Why this works:</strong> it lets Auric stand next to the large hardware primes without pretending to compete with their manufacturing scale, and it gives every conversation a physical thing to point at instead of a slide.</div>
+      </div>
+    </div>
+
+    <div class="tpanel rv" data-panel="p2b">
+      <div class="panel-box">
+        <span class="panel-tag">counting back from February 2027</span>
+        <p class="panel-body" style="margin-bottom:10px;"><strong style="color:var(--t1);">Months out (Q3 2026):</strong> lock hangar placement and booth footprint early, SME allocation typically closes four to five months before the show, and confirm which of the two live platforms shown in New Delhi travels well to a five day public floor.</p>
+        <p class="panel-body" style="margin-bottom:10px;"><strong style="color:var(--t1);">Eight weeks out:</strong> collateral built around the repositioned narrative from section 01, one leave-behind one-pager per audience, DRDO scientist, procurement officer, and foreign delegation.</p>
+        <p class="panel-body" style="margin-bottom:10px;"><strong style="color:var(--t1);">Show week:</strong> daily recap content shot at the booth itself, not produced after the fact, so the content pipeline in section 03 has real material instead of a stock photo of a stand.</p>
+        <p class="panel-body"><strong style="color:var(--t1);">Two weeks after:</strong> a single long-form recap asset, the one described in section 03, built from what actually happened at the booth rather than a generic post-show wrap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 CONTENT ============ -->
+<section class="part" id="content">
+  <div class="wrap">
+    <div class="sec-label rv"><span class="sec-num">03</span><span class="sec-title">Content</span></div>
+    <h2 class="part-h rv">The best paragraph Auric has written all year is buried in a LinkedIn caption.</h2>
+    <p class="part-lead rv">The founder&rsquo;s recap of the Indo Pacific GeoIntelligence Forum 2026 talk is, genuinely, a sharp piece of thinking: the analyst capacity problem, stated plainly, with a real position behind it. It is currently formatted as a caption with hashtags. It won&rsquo;t surface in a search, it won&rsquo;t hold up as a leave-behind, and it disappears from the feed in a week.</p>
+
+    <div class="tabs rv">
+      <button class="tab on" data-tab="p3a" onclick="setTab('content',this,'p3a')">What&rsquo;s public now</button>
+      <button class="tab" data-tab="p3b" onclick="setTab('content',this,'p3b')">What I&rsquo;d build with it</button>
+    </div>
+
+    <div class="tpanel on rv" data-panel="p3a">
+      <div class="panel-box">
+        <span class="panel-tag">LinkedIn &middot; Soham Dedhia, post-event recap</span>
+        <p class="panel-body">The post lays out the core problem in three moves: collection is scaling, analyst headcount isn&rsquo;t, and the answer isn&rsquo;t more people, it&rsquo;s AI built for the correlation work analysts can&rsquo;t do at the volume required. It closes with the sovereign Multi-INT fusion framing and a mention that the booth ran two live platforms. It is well written. It is also gone the moment the algorithm moves on.</p>
+      </div>
+    </div>
+
+    <div class="tpanel rv" data-panel="p3b">
+      <div class="panel-box amb">
+        <span class="panel-tag">from caption to asset</span>
+        <p class="panel-body">The founder should keep writing the raw thinking, that voice is the asset, heavy use of AI in turning it into polished long-form is expected and fine. What&rsquo;s missing is the editorial layer: three recurring pillars, one clear owner per piece, and a home for it that outlives a LinkedIn feed.</p>
+      </div>
+      <div class="pillar-grid" style="margin-top:16px;">
+        <div class="pillar">
+          <span class="pillar-num">Pillar 01</span>
+          <h4>The analyst gap</h4>
+          <p>Founder-voiced thought leadership on why collection is outrunning human capacity. This is the New Delhi talk, expanded into something that lives on the site, not just the feed.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-num">Pillar 02</span>
+          <h4>Sovereignty as architecture</h4>
+          <p>Why &ldquo;built in India, for India&rdquo; is a data residency and IP decision, not a slogan, aimed at the DRDO and procurement audience who actually cares about this distinction.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-num">Pillar 03</span>
+          <h4>Proof from the floor</h4>
+          <p>Recaps of what actually ran at the booth, GeoIntelligence Forum, later Aero India, written as evidence, not a highlight reel. This is the section 02 plan turning into content.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 AUDIENCE ============ -->
+<section class="part" id="audience">
+  <div class="wrap">
+    <div class="sec-label rv"><span class="sec-num">04</span><span class="sec-title">Audience</span></div>
+    <h2 class="part-h rv">Not every intelligence buyer wears a uniform.</h2>
+    <p class="part-lead rv">The obvious audience is the Indian armed forces and MoD. It is also the slowest one to close and the least forgiving of a wrong first impression. Here is how I&rsquo;d sequence the three audiences worth building for, in the order I&rsquo;d actually build for them.</p>
+
+    <div class="seg-grid rv">
+      <div class="seg-card pri">
+        <span class="seg-rank">Primary</span>
+        <h4>Indian armed forces &amp; MoD</h4>
+        <p>Long procurement cycles, relationship and credibility driven, won more through iDEX-style channels and repeated presence at the right forums than through content alone. Marketing&rsquo;s job here is trust at scale, the same story told consistently everywhere a decision maker looks.</p>
+      </div>
+      <div class="seg-card">
+        <span class="seg-rank">Secondary</span>
+        <h4>Allied &amp; export markets</h4>
+        <p>India&rsquo;s indigenization push is explicitly trying to build companies that can also export. That is a later stage motion, but the positioning built now, sovereign, India-built, should already be legible to a foreign delegation walking an Aero India hangar.</p>
+      </div>
+      <div class="seg-card">
+        <span class="seg-rank">Adjacent, worth testing</span>
+        <h4>Civil &amp; dual-use buyers</h4>
+        <p>Several Indian defense-tech peers have started building civilian spin-offs of the same core technology, maritime domain awareness, disaster response, infrastructure monitoring. Worth testing as a parallel track once the defense position is solid, not before, so it reads as expansion rather than dilution.</p>
+      </div>
+    </div>
+    <p class="disclaimer">This segmentation is inferred from public reporting on India&rsquo;s defense-tech funding and procurement environment, not a confirmed Auric audience strategy. Flagged as a recommendation, not a fact about the company.</p>
+  </div>
+</section>
+
+<!-- ============ 05 POSITION ============ -->
+<section class="part" id="compete">
+  <div class="wrap">
+    <div class="sec-label rv"><span class="sec-num">05</span><span class="sec-title">Position</span></div>
+    <h2 class="part-h rv">Why wouldn&rsquo;t a buyer just use Vantor?</h2>
+    <p class="part-lead rv">Most people outside this space assume Auric competes with the Indian drone makers, NewSpace, Big Bang Boom, that kind of company. It doesn&rsquo;t, not directly, those build platforms and hardware. Auric&rsquo;s real comparison set is the software fusion layer, and that set is dominated by two American names.</p>
+
+    <div class="comp-table rv">
+      <div class="comp-row comp-head-row">
+        <div class="comp-cell">Player</div>
+        <div class="comp-cell">What it actually is</div>
+        <div class="comp-cell">Why the comparison still favors Auric, for an Indian buyer</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-tool">Vantor</span></div>
+        <div class="comp-cell">Formerly Maxar Intelligence, rebranded in late 2025, now runs Tensorglobe, an AI spatial intelligence platform serving the US NGA and allied governments at massive scale.</div>
+        <div class="comp-cell">Best-in-class at what it does. Also a US company running US infrastructure and IP, which is precisely the dependency India&rsquo;s new procurement rules are trying to move away from.</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-tool">Palantir</span></div>
+        <div class="comp-cell">Gotham and AIP, the dominant name in defense data fusion and decision software globally.</div>
+        <div class="comp-cell">Same structural issue as Vantor for a sovereignty-sensitive buyer, plus a pricing and contracting model built for a different government&rsquo;s budget cycle.</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-tool">NewSpace, Big Bang Boom, Tonbo</span></div>
+        <div class="comp-cell">Indian drone, combat-systems, and sensor-optics makers, all well funded and well regarded in their own categories.</div>
+        <div class="comp-cell">Different layer of the stack, hardware and platforms rather than the fusion software that turns their sensor output into one picture. A partner category, not a competitor.</div>
+      </div>
+    </div>
+
+    <div class="pull rv">India&rsquo;s own 2026 procurement rules are pushing toward locally owned IP, not just locally assembled hardware. That is the one lane in this comparison that a foreign fusion platform, however good, cannot occupy. It is also the only claim in this entire page that Auric can make and Vantor cannot.</div>
+
+    <div class="panel-box amb rv" style="margin-top:22px;">
+      <span class="panel-tag">so what does Auric actually own</span>
+      <p class="panel-body" style="margin-bottom:10px;">Every name in that table, and most of Auric&rsquo;s own homepage, competes on the same three words: AI, autonomy, battlefield superiority. That&rsquo;s a crowded lane against companies with far bigger budgets and longer track records. The comparison above only earns its place on this page if it ends in a decision, not a market map.</p>
+      <p class="panel-body" style="margin-bottom:0;"><strong style="color:var(--t1);">Instead of competing on</strong> AI, autonomy, and battlefield superiority, <strong style="color:var(--t1);">Auric should own</strong> the one position none of Vantor, Palantir, or the Indian hardware makers can claim at the same time: a sovereign Multi-INT reasoning platform built for Indian defense. Not the best fusion technology in the world, the only one a buyer bound by India&rsquo;s own procurement rules can actually deploy end to end. Every section above, the homepage line, the booth, the content pillars, should trace back to that one sentence.</p>
+    </div>
+    <p class="disclaimer" style="margin-top:16px;">The ownable position above is a strategic recommendation, not a stated fact about India&rsquo;s regulatory text.</p>
+  </div>
+</section>
+
+<!-- ============ 06 OTHER RELEVANT WORK ============ -->
+<section class="part" id="work" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-label rv"><span class="sec-num">06</span><span class="sec-title">Other Relevant Work</span></div>
+    <h2 class="part-h rv">Five samples worth a look</h2>
+
+    <div class="wgrid rv">
+      <a class="wcard" href="https://bhanuexcalibur.github.io/Canonical/" target="_blank" rel="noopener">
+        <span class="wcard-tag">Full PoW &nbsp;&middot;&nbsp; Open source / embedded infrastructure</span>
+        <h4>Canonical</h4>
+        <p>Deep technical translation work, explaining an embedded systems product to both an engineer and the person who signs off on buying it, without dumbing either version down. The exact writing problem a fusion and reasoning platform has.</p>
+        <span class="wcard-arr">&rarr;</span>
+      </a>
+
+      <a class="wcard" href="https://bhanuexcalibur.github.io/Deltek/" target="_blank" rel="noopener">
+        <span class="wcard-tag">Full PoW &nbsp;&middot;&nbsp; Government contracting software</span>
+        <h4>Deltek</h4>
+        <p>Positioning and GTM work for a company whose entire buyer base lives inside government contracting cycles and compliance requirements, the same procurement rhythm and risk sensitivity a defense buyer brings to Auric.</p>
+        <span class="wcard-arr">&rarr;</span>
+      </a>
+
+      <a class="wcard" href="https://bhanuexcalibur.github.io/Boundless-PoW/" target="_blank" rel="noopener">
+        <span class="wcard-tag">Messaging audit &nbsp;&middot;&nbsp; Multi-buyer technical</span>
+        <h4>Boundless</h4>
+        <p>A three-buyer rewrite for a compliance infrastructure product, risk officer, CTO, and partner BD, each needing a different opening line for the same product. Auric&rsquo;s booth has to do the same split, DRDO scientist, procurement officer, foreign delegation, in the same ninety seconds.</p>
+        <span class="wcard-arr">&rarr;</span>
+      </a>
+
+      <a class="wcard" href="https://bhanuexcalibur.github.io/Veeva/" target="_blank" rel="noopener">
+        <span class="wcard-tag">Full PoW &nbsp;&middot;&nbsp; Regulated enterprise software</span>
+        <h4>Veeva</h4>
+        <p>Messaging built for a life sciences audience where a single wrong claim carries real regulatory weight, the closest thing in my portfolio to writing for a buyer who reads every sentence for what it implies, not just what it says.</p>
+        <span class="wcard-arr">&rarr;</span>
+      </a>
+
+      <a class="wcard full" href="https://bhanuexcalibur.github.io/Revolut-Used-Gone-Campaign/" target="_blank" rel="noopener">
+        <span class="wcard-tag">Campaign &nbsp;&middot;&nbsp; Creative platform</span>
+        <h4>Revolut, Already Gone</h4>
+        <p>A full creative platform built from one product insight: positioning, art direction, an in-product moment, and a real-world activation concept. Included because this role is explicitly not a content-writer role, it needs someone who can make a booth and a brand watchable, not just readable, and this is that muscle.</p>
+        <span class="wcard-arr">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE -->
+<div class="wrap">
+  <div class="sig">
+    <div>
+      <div class="sig-name">Bhanu <span>Kumar</span></div>
+      <div class="sig-links">
+        <a href="mailto:bhanukumar0902@gmail.com">bhanukumar0902@gmail.com</a><br>
+        <a href="https://linkedin.com/in/bhanuexcalibur" target="_blank" rel="noopener">linkedin.com/in/bhanuexcalibur</a>
+      </div>
+    </div>
+    <div class="sig-btns">
+      <a class="sbtn pri" href="mailto:bhanukumar0902@gmail.com">
+        Get in touch
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7.5 3.5l3 3-3 3" stroke="#221503" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="sbtn ghost" href="https://drive.google.com/file/d/1mWikcrkanBStxNLI1rJO_f82lC4w6JpQ/view" target="_blank" rel="noopener">Full resume &rarr;</a>
+    </div>
+  </div>
+  <div class="note">Built for Auric AI Labs, from Auric&rsquo;s public site and the founder&rsquo;s public LinkedIn posts. Sources and assumptions are flagged inline throughout, not repeated here.</div>
+</div>
+
+<script>
+function toggleMob(){document.getElementById('hbg').classList.toggle('open');document.getElementById('mobm').classList.toggle('open');}
+function closeMob(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobm').classList.remove('open');}
+
+function updateProgress(){
+  var h = document.documentElement;
+  var pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('pbar').style.width = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+
+var rvIo = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); } });
+},{threshold:0.12});
+document.querySelectorAll('.rv').forEach(function(el){ rvIo.observe(el); });
+
+function setTab(section, btn, panelId){
+  var nav = btn.parentElement;
+  nav.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); t.classList.remove('amb'); });
+  btn.classList.add('on');
+  if(panelId === 'p1b' || panelId === 'p3b'){ btn.classList.add('amb'); }
+  var container = nav.parentElement;
+  container.querySelectorAll('.tpanel').forEach(function(p){ p.classList.remove('on'); });
+  container.querySelector('[data-panel="'+panelId+'"]').classList.add('on');
+}
+
+/* ===== FUSION DEMO ===== */
+var contacts = [
+  { chips:['EO frame &middot; 0.3m res','SAR return &middot; X-band','ELINT intercept &middot; unclassified band','OSINT &middot; AIS transponder'], name:'Contact 07', sub:'4 sources correlated &middot; last update 2s ago', badge:'Class &middot; Surface vessel', score:88 },
+  { chips:['Drone feed &middot; thermal','EO frame &middot; 0.5m res','OSINT &middot; convoy chatter','SAR return &middot; C-band'], name:'Contact 14', sub:'4 sources correlated &middot; last update 4s ago', badge:'Class &middot; Wheeled convoy', score:79 },
+  { chips:['EO frame &middot; 0.3m res','IR frame &middot; thermal signature','ELINT intercept &middot; radar band','OSINT &middot; flight tracker'], name:'Contact 22', sub:'4 sources correlated &middot; last update 1s ago', badge:'Class &middot; Fixed-wing aircraft', score:93 }
+];
+var fIndex = 0, fRunning = false, fInvited = false;
+
+function buildFDots(){
+  var dots = document.getElementById('fDots');
+  dots.innerHTML = '';
+  contacts.forEach(function(c,i){
+    var d = document.createElement('button');
+    d.className = 'dk-dot' + (i === fIndex ? ' on' : '');
+    d.setAttribute('aria-label','Show contact ' + (i+1));
+    d.onclick = function(){ if(!fRunning){ document.getElementById('replayBtn').classList.remove('invite'); fIndex = i; runFusion(); } };
+    dots.appendChild(d);
+  });
+}
+
+function runFusion(){
+  if(fRunning) return;
+  fRunning = true;
+  var c = contacts[fIndex];
+
+  var col = document.getElementById('fInputs');
+  col.querySelectorAll('.chip').forEach(function(el){ el.remove(); });
+
+  var card = document.getElementById('trackCard');
+  card.classList.remove('in');
+  document.getElementById('confFill').style.width = '0%';
+  document.getElementById('confNum').textContent = '0';
+
+  buildFDots();
+
+  c.chips.forEach(function(text,i){
+    var chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.innerHTML = text;
+    col.appendChild(chip);
+    setTimeout(function(){ chip.classList.add('in'); }, 60 + i * 130);
+  });
+
+  var chipsDone = 60 + c.chips.length * 130 + 250;
+
+  setTimeout(function(){
+    var scan = document.getElementById('fScan');
+    scan.classList.remove('run');
+    void scan.offsetWidth;
+    scan.classList.add('run');
+  }, chipsDone);
+
+  setTimeout(function(){
+    document.getElementById('trackName').textContent = c.name;
+    document.getElementById('trackSub').innerHTML = c.sub;
+    document.getElementById('trackBadge').innerHTML = c.badge;
+    card.classList.add('in');
+    document.getElementById('confFill').style.width = c.score + '%';
+    animateConf(c.score);
+  }, chipsDone + 650);
+
+  setTimeout(function(){
+    fRunning = false;
+    if(!fInvited){
+      fInvited = true;
+      var btn = document.getElementById('replayBtn');
+      btn.classList.add('invite');
+      setTimeout(function(){ btn.classList.remove('invite'); }, 3600);
+    }
+  }, chipsDone + 1500);
+}
+
+function animateConf(target){
+  var el = document.getElementById('confNum');
+  var start = null, dur = 650;
+  function step(ts){
+    if(!start) start = ts;
+    var p = Math.min((ts-start)/dur,1);
+    el.textContent = Math.round(p*target);
+    if(p<1){ requestAnimationFrame(step); }
+  }
+  requestAnimationFrame(step);
+}
+
+function replayFusion(){
+  if(fRunning) return;
+  document.getElementById('replayBtn').classList.remove('invite');
+  fIndex = (fIndex + 1) % contacts.length;
+  runFusion();
+}
+
+buildFDots();
+setTimeout(runFusion, 420);
+</script>
+
+</body>
+</html>
